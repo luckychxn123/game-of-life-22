@@ -1,0 +1,4 @@
+https://conwaylife.com/patterns/hammerhead.cells
+https://conwaylife.com/patterns/70p2h1v0.1.cells
+https://conwaylife.com/patterns/60p5h2v0.cells
+https://conwaylife.com/patterns/72p6h2v0.cells

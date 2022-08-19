@@ -19,19 +19,28 @@ let changecolorspeed = 1 //ideal： 0.01, if becomes 2 -> its 100
 // neighborlist[[default], [user change - defualt rule 2 & 3 = 3]]
 let neighborlist = [[2, 3], [1, 3]]
 let resetneighbor2 = document.querySelector('.neighborslider .resetneighbor2');
+let resetsurvival = document.querySelector('.survivalslider .resetsurvival');
 let survivalrule1 = neighborlist[0][0]; //[focus] here remain unchange for now
 let neighborrule2 = neighborlist[0][1];
 
 //this is for neightborvalues
 var neighborslider = document.querySelector(".neighborslider .slider");
 var noutput = document.querySelector(".nvalue");
-// noutput.innerHTML = neighborslider.value;
 function n1(value) {
     noutput.innerHTML = value;
     neighborlist[1][0] = value;
     neighborrule2 = neighborlist[1][0];
   }
+//this is for survivalvalues
+var survivalslider = document.querySelector(".survivalslider .slider");
+var soutput = document.querySelector(".svalue");
+survivalslider.addEventListener("input",(e)=>{
+   soutput.innerHTML = e.target.value;
+   neiborlist[1][1] = e.target.value;
+   survivalrule1 = neighborlist[1][1];
+})
 
+//this is for colors + random colors
 let randcolorstop = false;
 let currentcolors = 1;
 let cdefault = document.querySelector('.colorscheme .default');
@@ -48,11 +57,10 @@ crandcolor.addEventListener('click', function(){
 })
 
 
-
 function setup(){
     /* Set the canvas to be under the element #canvas*/
     frameRate(fr);
-    const canvas = createCanvas(windowWidth + 400, windowHeight - 100);
+    const canvas = createCanvas(windowWidth, windowHeight - 100);
     canvas.parent(document.querySelector('#canvas'));
 
     /*Calculate the number of columns and rows */
@@ -74,7 +82,6 @@ function setup(){
     slider = createSlider(3, 60, 30, 1);
     slider.position(sliderpos[0], sliderpos[1])
     slider.style('width', '300px')
-
 }
 
 function init() {
@@ -160,14 +167,17 @@ ssbutton.addEventListener('click', function(){
 //resetneighbor2
 //[focus] here - 
 resetneighbor2.addEventListener('click', function(){
-    survivalrule1 = neighborlist[1][0]
     neighborrule2 = neighborlist[1][1]
-
     noutput.innerHTML = neighborrule2;
     //[aware] here sets the slider's box value
     neighborslider.value = neighborrule2;
 })
-
+resetsurvival.addEventListener('click', function(){
+    survivalrule1 = neighborlist[1][0]
+    soutput.innerHTML = survivalrule1;
+    //[aware] here sets the slider's box value
+    survivalslider.value = survivalrule1;
+})
 
 function generate() {
     //Loop over every single box on the board

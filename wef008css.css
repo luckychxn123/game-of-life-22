@@ -32,16 +32,16 @@
 .randstart{
     width: 230px;
 }
-.neighborslider {
+.neighborslider, .survivalslider {
     width: 100%; /* Width of the outside container */
     display:flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 0 10px;
   }
   
   /* The slider itself */
-  .neighborslider .slider {
+  .neighborslider .slider,  .survivalslider .slider{
     -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
     width: 30%; /* Full-width */
@@ -51,7 +51,7 @@
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
 
   }
-  .neighborslider .slider::-webkit-slider-thumb {
+  .neighborslider .slider::-webkit-slider-thumb,  .survivalslider .slider::-webkit-slider-thumb{
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
@@ -59,14 +59,14 @@
     background: black;
     cursor: pointer;
   }
-  .neighborslider p, .nvalue, .colorscheme p{
+  .neighborslider p,  .survivalslider p, .nvalue, .colorscheme p, .svalue{
     padding: 10px;
     font-size: 22px;
   }
-  .neighborslider p{
+  .neighborslider p,  .survivalslider p{
     margin: 0px;
   }
-.resetneighbor2{
+.resetneighbor2, .resetsurvival{
     /* this is for smaller butons - for slider */
     background-color: rgba(240, 248, 255, 0.57);
     text-align: center;

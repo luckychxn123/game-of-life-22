@@ -1,0 +1,54 @@
+file:///C:/Users/Lucky/Desktop/Tecky/August%20lesson%20exc/wef008.html
+[problem solved]
+[here]
+[me]
+
+questions
+1. what is currentBoard list & nextBoard list used for
+2. why need to swap currentBoard = nextBoard, nextBoard = currentBoard?
+3. 
+
+things i've done
+--done--
+[done] Start/Stop the Game of life
+[done][can add] Control speed of the Game of Life. (Checkout framerate, you can use slider to control the framerate )
+	// fr changes constantly as long as mousedown
+[me] reset button
+Random initial states
+ Darken colors for stable life.
+[done] Allow users to change the rules of reproduction. 
+Multiple colors of life on the same board.
+Allow users to change the rules of survival.
+
+--NY--
+ Use Keyboard to control the cursor to place the life
+Well-known patterns of Game of Life to select from(Examples:Gosper Glider Gun, Glider, Lightweight train).
+	// create a list for showing cpatternlst = before confirm
+	// set keyboard keys to allow user to place
+	// if user clicked another pattern: list clear
+	// fill square colors in list
+		-> if confirm place: currentBoard update == 1
+	// 
+=[wip] Resize board on windows resize(Check out windowsResized)
+Switching between different styles. [?][ask teacher]
+Anything else that you could think of.
+
+
+===index of patterns===
+https://conwaylife.com/patterns/
+------ 
+
+====problem====
+1. changecolorspeed if < 1, sys automatically round to 0	
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@my notes@@@@@@@@@@@@@@@@@@@@@@@
+[imp] survivalrule //is survival rule 1
+	neighborrule2 //is survival rule 2 & 3
+
+
++++[ideas]+++
+2. [aware]
+3. [click] - make all of them in the same sec
+4. after click buttons, background color = dark blue
+
+randcolorstop

@@ -24,16 +24,18 @@
         <div class="neighborslider">
             <p>Neighbor(s): </p>
             <span class="nvalue">3</span>
-            <input type="range" min="1" max="8" value="3" oninput="n1(this.value)" class="slider">
+            <input type="range" min="1" max="5" value="3" oninput="n1(this.value)" class="slider">
             <div class="resetneighbor2">RESET</div>
             <p>Reproduction rule</p>
           </div>
         <div class="survivalslider">
-          <p>Survival lives: </p>
+          <p>(Death) loneliness lives: </p>
           <span class="svalue">3</span>
-          <input type="range" min="1" max="8" value="3" oninput="n1(this.value)" class="slider">
-          <div class="resetneighbor2">RESET</div>
-          <p>Reproduction rule</p>
+          <input type="range" min="1" max="5" value="3" class="slider">
+          <!-- [here][me] interesting fact: value='3' will always stay same, for front-end can only changes the input value in between,
+            for JS can only take the value and do sth with that value-->
+          <div class="resetsurvival">RESET</div>
+          <p>Survival rule</p>
         </div>
         <div class="colorscheme">
             <p>Color Schemes </p>
