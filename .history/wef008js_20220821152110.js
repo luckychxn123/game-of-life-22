@@ -370,6 +370,7 @@ resetneighbor2.addEventListener('click', function(){
     noutput.innerHTML = neighborrule2;
     //[aware] here sets the slider's box value
     neighborslider.value = neighborrule2;
+    console.log(neighborslider.value )
 })
 resetsurvival.addEventListener('click', function(){
     survivalrule1 = neighborlist[0][0]
@@ -675,6 +676,7 @@ function showbullet(){
             if (b[5] > 1){
                 b[5] -= 1
             }
+            console.log(b[0])
             let dx1 = Math.cos(b[2][0]) * b[5];
             let dy1 = Math.sin(b[2][0]) * b[5];
             b[2][1] += Math.round(dx1)

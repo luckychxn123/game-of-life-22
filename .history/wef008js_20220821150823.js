@@ -18,7 +18,7 @@ let changecolorspeed = 1 //ideal： 0.01, if becomes 2 -> its 100
 //[focus] problem found: if == 1 works, but ==2 dont work
 //neighbor rules
 // neighborlist[[default], [user change - defualt rule 2 & 3 = 3]]
-let neighborlist = [[2, 3], [2, 3]]
+let neighborlist = [[2, 3], [1, 3]]
 let resetneighbor2 = document.querySelector('.neighborslider .resetneighbor2');
 let resetsurvival = document.querySelector('.survivalslider .resetsurvival');
 let survivalrule1 = neighborlist[0][0];
@@ -104,7 +104,7 @@ var neighborslider = document.querySelector(".neighborslider .slider");
 var noutput = document.querySelector(".nvalue");
 function n1(value) {
     noutput.innerHTML = value;
-    neighborlist[1][0] = parseInt(value);
+    neighborlist[1][0] = value;
     neighborrule2 = neighborlist[1][0];
   }
 //this is for split bullets' range - slider
@@ -366,13 +366,13 @@ ssbutton.addEventListener('click', function(){
 })
 //resetneighbor2
 resetneighbor2.addEventListener('click', function(){
-    neighborrule2 = neighborlist[0][1]
+    neighborrule2 = neighborlist[1][1]
     noutput.innerHTML = neighborrule2;
     //[aware] here sets the slider's box value
     neighborslider.value = neighborrule2;
 })
 resetsurvival.addEventListener('click', function(){
-    survivalrule1 = neighborlist[0][0]
+    survivalrule1 = neighborlist[1][0]
     soutput.innerHTML = survivalrule1;
     //[aware] here sets the slider's box value
     survivalslider.value = survivalrule1;
@@ -399,11 +399,11 @@ function generate() {
             // neighbors can be anyone around, doesnt must be x/y
             // Rules of Life
             if (!gamepause){
-                if (currentBoard[x][y] == 1 && neighbors < survivalrule1) {
+                if (currentBoard[x][y] != 0 && neighbors < survivalrule1) {
                     // Die of Loneliness
                     nextBoard[x][y] = 0;
 
-                } else if (currentBoard[x][y] == 1 && neighbors > 3) {
+                } else if (currentBoard[x][y] != 0 && neighbors > 3) {
                     // Die of Overpopulation
                     nextBoard[x][y] = 0;
                 } else if (currentBoard[x][y] == 0 && neighbors == neighborrule2) {
@@ -675,6 +675,7 @@ function showbullet(){
             if (b[5] > 1){
                 b[5] -= 1
             }
+            console.log(b[0])
             let dx1 = Math.cos(b[2][0]) * b[5];
             let dy1 = Math.sin(b[2][0]) * b[5];
             b[2][1] += Math.round(dx1)

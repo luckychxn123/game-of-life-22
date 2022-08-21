@@ -675,6 +675,7 @@ function showbullet(){
             if (b[5] > 1){
                 b[5] -= 1
             }
+            console.log(b[0])
             let dx1 = Math.cos(b[2][0]) * b[5];
             let dy1 = Math.sin(b[2][0]) * b[5];
             b[2][1] += Math.round(dx1)

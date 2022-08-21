@@ -18,10 +18,10 @@ let changecolorspeed = 1 //ideal： 0.01, if becomes 2 -> its 100
 //[focus] problem found: if == 1 works, but ==2 dont work
 //neighbor rules
 // neighborlist[[default], [user change - defualt rule 2 & 3 = 3]]
-let neighborlist = [[2, 3], [2, 3]]
+let neighborlist = [[2, 3], [1, 3]]
 let resetneighbor2 = document.querySelector('.neighborslider .resetneighbor2');
 let resetsurvival = document.querySelector('.survivalslider .resetsurvival');
-let survivalrule1 = neighborlist[0][0];
+let survivalrule1 = neighborlist[0][0]; //[focus] here remain unchange for now
 let neighborrule2 = neighborlist[0][1];
 // patterns
 let patterns = {'fir':[[['O', 'O', 'O', 'O', 'O'], ['O', '.', '.', '.', '.', 'O', '.', '.', '.', '.', '.', '.', '.', 'O', 'O'], ['O', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'O', 'O', '.', 'O', 'O', 'O'], ['.', 'O', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'O', 'O', '.', 'O', 'O', 'O', 'O'], ['.', '.', '.', 'O', 'O', '.', '.', '.', 'O', 'O', '.', 'O', 'O', '.', '.', 'O', 'O'], ['.', '.', '.', '.', '.', 'O', '.', '.', '.', '.', 'O', '.', '.', 'O'], ['.', '.', '.', '.', '.', '.', 'O', '.', 'O', '.', 'O', '.', 'O'], ['.', '.', '.', '.', '.', '.', '.', 'O'], ['.', '.', '.', '.', '.', '.', '.', 'O'], ['.', '.', '.', '.', '.', '.', 'O', '.', 
@@ -104,7 +104,7 @@ var neighborslider = document.querySelector(".neighborslider .slider");
 var noutput = document.querySelector(".nvalue");
 function n1(value) {
     noutput.innerHTML = value;
-    neighborlist[1][0] = parseInt(value);
+    neighborlist[1][0] = value;
     neighborrule2 = neighborlist[1][0];
   }
 //this is for split bullets' range - slider
@@ -115,14 +115,14 @@ splitslider.addEventListener("input",(e)=>{
     splitoutput.innerHTML = e.target.value;
     splitvalue = parseInt(e.target.value);
  })
-
+//[back here]
 
 //this is for survivalvalues - slider
 var survivalslider = document.querySelector(".survivalslider .slider");
 var soutput = document.querySelector(".svalue");
 survivalslider.addEventListener("input",(e)=>{
    soutput.innerHTML = e.target.value;
-   neighborlist[1][1] = parseInt(e.target.value);
+   neighborlist[1][1] = e.target.value;
    survivalrule1 = neighborlist[1][1];
 })
 //this is for frameratevalues - slider
@@ -189,10 +189,8 @@ function init() {
         }
         console.log('restart')
     bulletslst['mouseshoot'] = [];
-    // bulletslst['waveshoot'] = [];
+    bulletslst['waveshoot'] = [];
     bulletslst['rangeshoot'] = [];
-    bulletslst['mouseshoot-reverse'] = [];
-    bulletslst['tripleshoot'] = [];
         // me: if set currentBoard[i][j] = 1, whole column will become grey and this pass to almost all lines. can test this later after speed set
     }
     // console.log(currentBoard, 'currentboard', '\n', nextBoard, 'nextboard') -> both are same, a big list with x length: [...], [...] !! not big list wraping them up
@@ -201,7 +199,7 @@ function init() {
     function addeffect (x, y) {
         let lst = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2]
         let deductlst = [0.5, 0.65, 0.8]
-        for (let i = 0; i < 30; i++){
+        for (let i = 0; i < 50; i++){
             let rand = Math.floor(Math.random() * 9);
             let rand2 = Math.floor(Math.random() * 9);//last one dont count
             let drand = Math.floor(Math.random() * 3);
@@ -253,6 +251,8 @@ function init() {
                                 hscore.innerHTML = 'Score: ' + score; }
                             }
                             for (let b of bulletslst['rangeshoot']){
+                                // if ((b[1] + 20 > currentBoard[i] * 20 || b[1] < currentBoard[i] * 20+ 20 ) 
+                                // && (b[2]+20 > currentBoard[j] * 20 || b[2] < currentBoard[j] * 20+20))
                                 if (b[0] < i * 20 + 20 &&
                                     b[0] + 20 > i * 20 &&
                                     b[1] < j * 20+ 20 &&
@@ -265,42 +265,6 @@ function init() {
                                     score += 1;
                                     hscore.innerHTML = 'Score: ' + score; }
                                 }
-                            for (let b of bulletslst['mouseshoot-reverse']){ //collision
-                                if (b[1] < i * 20 + 20 &&
-                                    b[1] + 20 > i * 20 &&
-                                    b[2] < j * 20+ 20 &&
-                                    b[2] + 20 > j * 20)
-                                    {
-                                    currentBoard[i][j]= 0;
-                                    fill(255);
-                                    let index = bulletslst['mouseshoot-reverse'].indexOf(b);
-                                    bulletslst['mouseshoot-reverse'].splice(index, 1)
-                                    score += 1;
-                                    hscore.innerHTML = 'Score: ' + score; }
-                                }
-                            //bulletslst['tripleshoot'].push([0, 80, [a - gap, kwidth+10, kheight+10], [a, kwidth+10, kheight+10], [a + gap, kwidth+10, kheight+10]])
-                            for (let b of bulletslst['tripleshoot']){
-                                if ((b[2][1] < i * 20 + 20 &&
-                                    b[2][1] + 20 > i * 20 &&
-                                    b[2][2] < j * 20+ 20 &&
-                                    b[2][2] + 20 > j * 20) || 
-                                    (b[3][1] < i * 20 + 20 &&
-                                    b[3][1] + 20 > i * 20 &&
-                                    b[3][2] < j * 20+ 20 &&
-                                    b[3][2] + 20 > j * 20) ||
-                                    (b[4][1] < i * 20 + 20 &&
-                                    b[4][1] + 20 > i * 20 &&
-                                    b[4][2] < j * 20+ 20 &&
-                                    b[4][2] + 20 > j * 20))
-                                    {
-                                    currentBoard[i][j]= 0;
-                                    fill(255);
-                                    let index = bulletslst['tripleshoot'].indexOf(b);
-                                    bulletslst['tripleshoot'].splice(index, 1)
-                                    score += 1;
-                                    hscore.innerHTML = 'Score: ' + score; }
-                                }
-                            
                         }
                     //[here] bulletslst['rangeshoot']
                     else if (currentBoard[i][j] == 1){
@@ -366,13 +330,13 @@ ssbutton.addEventListener('click', function(){
 })
 //resetneighbor2
 resetneighbor2.addEventListener('click', function(){
-    neighborrule2 = neighborlist[0][1]
+    neighborrule2 = neighborlist[1][1]
     noutput.innerHTML = neighborrule2;
     //[aware] here sets the slider's box value
     neighborslider.value = neighborrule2;
 })
 resetsurvival.addEventListener('click', function(){
-    survivalrule1 = neighborlist[0][0]
+    survivalrule1 = neighborlist[1][0]
     soutput.innerHTML = survivalrule1;
     //[aware] here sets the slider's box value
     survivalslider.value = survivalrule1;
@@ -399,11 +363,11 @@ function generate() {
             // neighbors can be anyone around, doesnt must be x/y
             // Rules of Life
             if (!gamepause){
-                if (currentBoard[x][y] == 1 && neighbors < survivalrule1) {
+                if (currentBoard[x][y] != 0 && neighbors < survivalrule1) {
                     // Die of Loneliness
                     nextBoard[x][y] = 0;
 
-                } else if (currentBoard[x][y] == 1 && neighbors > 3) {
+                } else if (currentBoard[x][y] != 0 && neighbors > 3) {
                     // Die of Overpopulation
                     nextBoard[x][y] = 0;
                 } else if (currentBoard[x][y] == 0 && neighbors == neighborrule2) {
@@ -431,7 +395,6 @@ function generate() {
 
 
 function mouseDragged() {
-
     /**
      * If the mouse coordinate is outside the board
      */
@@ -440,7 +403,7 @@ function mouseDragged() {
     }
     const x = Math.floor(mouseX / unitLength);
     const y = Math.floor(mouseY / unitLength);
-    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot'] || !shootingbool['tripleshoot']){
+    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot']){
         if (!erasing){
         currentBoard[x][y] = changecolorspeed;}
         else if (erasing){
@@ -457,7 +420,7 @@ function mouseDragged() {
  */
 function mousePressed() {
     noLoop(); //library func: stop draw()
-    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot'] || !shootingbool['tripleshoot']){
+    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot']){
     mouseDragged();}
 }
 
@@ -510,9 +473,9 @@ eraser.addEventListener('click', function(){
 let kheight = 320;
 let kwidth = 720;
 let klst = [[kheight, kwidth], [kheight, kwidth + 20], [kheight + 20, kwidth], [kheight + 20, kwidth + 20]]
-let shootsh = document.querySelectorAll('.keydownshoots div') 
-let shootingbool = {'mouseshoot':false, 'entertrue':false, 'rangeshoot':false, 'waveshoot':false, 'tripleshoot':false};
-let bulletslst = {'mouseshoot':[], 'rangeshoot':[], 'waveshoot':[], 'mouseshoot-reverse':[], 'tripleshoot':[]}
+let shootsh = document.querySelectorAll('.keydownshoots div')
+let shootingbool = {'mouseshoot':false, 'entertrue':false, 'rangeshoot':false, 'waveshoot':false};
+let bulletslst = {'mouseshoot':[], 'rangeshoot':[], 'waveshoot':[]} // {bulletslst['mouseshoot'].push...=[]}
 let shootspeed = 10;
 
 
@@ -525,10 +488,10 @@ function addrangebullets (split){
         atan+=r
     }
 } 
-// function addwavebullet (x, y, wave){
-//     step = 0.008;
-//     bulletslst['waveshoot'].push([x, y, step, wave])
-// }
+function addwavebullet (x, y, wave){
+    step = 0.008;
+    bulletslst['waveshoot'].push([x, y, step, wave])
+}
 
 addEventListener('keydown', function(event){
     if (event.keyCode == 87) {
@@ -572,50 +535,35 @@ for (let k of shootsh){ //[back here]
                     shootingbool['rangeshoot'] = false;
                     k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
                 }
-            } else if (k.innerHTML == 'Triple bullets'){
-                if (!shootingbool['tripleshoot']){
-                    shootingbool['tripleshoot'] = true;
+            } else if (k.innerHTML == 'Wave bullet'){
+                if (!shootingbool['waveshoot']){
+                    shootingbool['waveshoot'] = true;
                     k.style.backgroundColor = 'rgb(102, 102, 255)';
                 } else{
-                    shootingbool['tripleshoot'] = false;
+                    shootingbool['waveshoot'] = false;
                     k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
                 }
-            } 
-            // else if (k.innerHTML == 'Wave bullet'){
-            //     if (!shootingbool['waveshoot']){
-            //         shootingbool['waveshoot'] = true;
-            //         k.style.backgroundColor = 'rgb(102, 102, 255)';
-            //     } else{
-            //         shootingbool['waveshoot'] = false;
-            //         k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
-            //     }}
-})
+}})
 }
 
 //click to shoot part
 document.body.addEventListener('click', function(){
     if (shootingbool['entertrue'] && (mouseX > 0 && mouseX < columns * unitLength && mouseY > 0 && mouseY < rows * unitLength)){
         if (shootingbool['mouseshoot']) { 
-            let a = shootatan();
+            a = shootatan();
             bulletslst['mouseshoot'].push([a, kwidth+10, kheight+10])
-            bulletslst['mouseshoot-reverse'].push([a, kwidth+10, kheight+10])}
-        else if (shootingbool['rangeshoot']) { 
+     } else if(bulletslst['rangeshoot']){
+         if (shootingbool['rangeshoot']) { 
              addrangebullets(splitvalue);
-     } else if (shootingbool['tripleshoot']){
-             //[back here]
-            let a = shootatan();
-            let gap = 0.34;
-            bulletslst['tripleshoot'].push([0,30, [a - gap, kwidth+10, kheight+10], [a, kwidth+10, kheight+10], [a + gap, kwidth+10, kheight+10], 15])
-     }
-    //  else if(bulletslst['waveshoot']){
-    //      if (shootingbool['waveshoot']){
-    //          addwavebullet(kwidth + 10, kheight + 10, 100);
-    //          console.log('added wave')
-    //     }}
+     }}else if(bulletslst['waveshoot']){
+         if (shootingbool['waveshoot']){
+             addwavebullet(kwidth + 10, kheight + 10, 100);
+             console.log('added wave')
+        }}
     }
 })
 
-// bulletslst['mouseshoot'].push([a, kwidth+10, kheight+10, kwidth+10, kheight+10])
+
 function showbullet(){
     for (let b of bulletslst['mouseshoot']){
         let dx = Math.cos(b[0]) * shootspeed;
@@ -624,24 +572,10 @@ function showbullet(){
         b[2] += Math.round(dy)
         fill(210, 53, 53)
         rect(b[1], b[2], unitLength, unitLength)
+        //below: remove index if bullet is outside
         if (b[1] < 0 || b[1]  > 1460 || b[2] < 0 || b[2] > 700){
             let index = bulletslst['mouseshoot'].indexOf(b);
             bulletslst['mouseshoot'].splice(index, 1)
-            addeffect(b[1], b[2])
-        }
-    }
-    for (let b of bulletslst['mouseshoot-reverse']){
-        let dx = Math.cos(b[0]) * shootspeed;
-        let dy = Math.sin(b[0]) * shootspeed;
-        b[1] -= Math.round(dx)
-        b[2] -= Math.round(dy)
-        //kwidth+10, kheight+10
-        fill(230, 153, 153)
-        rect(b[1], b[2], unitLength, unitLength)
-        //below: remove index if bullet is outside
-        if (b[1] < 0 || b[1]  > 1460 || b[2] < 0 || b[2] > 700){
-            let index = bulletslst['mouseshoot-reverse'].indexOf(b);
-            bulletslst['mouseshoot-reverse'].splice(index, 1)
             addeffect(b[1], b[2])
         }
     }
@@ -659,44 +593,13 @@ function showbullet(){
         }
     }
     // bulletslst['waveshoot'].push([x, y, step, wave] [back here]
-    // for (let b of bulletslst['waveshoot']){
-    //     let sinyPos = -1 * sin(b[2]) * b[3]
-    //     b[0] += b[2]
-    //     b[2] += 0.08
-    //     fill(210, 53, 53)
-    //     rect(Math.round(b[0]), sinyPos + b[1], unitLength, unitLength)
-    //     console.log(Math.round(b[0]), sinyPos + b[1])
-    // }
-
-    //bulletslst['tripleshoot'].push([0,20, [a - gap, kwidth+10, kheight+10], [a, kwidth+10, kheight+10], [a + gap, kwidth+10, kheight+10], 15])
-    for (let b of bulletslst['tripleshoot']){
-        if (b[0] < b[1]){
-            b[0] += 1
-            if (b[5] > 1){
-                b[5] -= 1
-            }
-            let dx1 = Math.cos(b[2][0]) * b[5];
-            let dy1 = Math.sin(b[2][0]) * b[5];
-            b[2][1] += Math.round(dx1)
-            b[2][2] += Math.round(dy1)
-            fill(230, 153, 153)
-            rect(b[2][1], b[2][2], unitLength, unitLength)
-            let dx2 = Math.cos(b[3][0]) * b[5];
-            let dy2 = Math.sin(b[3][0]) * b[5];
-            b[3][1] += Math.round(dx2)
-            b[3][2] += Math.round(dy2)
-            fill(230, 153, 153)
-            rect(b[3][1], b[3][2], unitLength, unitLength)
-            let dx3 = Math.cos(b[4][0]) * b[5];
-            let dy3 = Math.sin(b[4][0]) * b[5];
-            b[4][1] += Math.round(dx3)
-            b[4][2] += Math.round(dy3)
-            fill(230, 153, 153)
-            rect(b[4][1], b[4][2], unitLength, unitLength)
-    } else {
-        let index = bulletslst['tripleshoot'].indexOf(b);
-        bulletslst['tripleshoot'].splice(index, 1)
-    }
+    for (let b of bulletslst['waveshoot']){
+        let sinyPos = -1 * sin(b[2]) * b[3]
+        b[0] += b[2]
+        b[2] += 0.08
+        fill(210, 53, 53)
+        rect(Math.round(b[0]), sinyPos + b[1], unitLength, unitLength)
+        console.log(Math.round(b[0]), sinyPos + b[1])
     }
 }
 

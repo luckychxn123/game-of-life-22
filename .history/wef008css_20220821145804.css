@@ -141,11 +141,11 @@
     border: dashed 3px black;
     font-weight: bold;
 }
-.patternlist div{
-    margin: 10px;
+.keydownshoots div{
+    padding: 0 20px;;
 }
-.keydownshoots div, .colorful{
-    padding-top: 2px;
+.patternlist div, .keydownshoots div{
+    margin: 10px;
 }
 
 /* <div class="patternlist">Select patterns
