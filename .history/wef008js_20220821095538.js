@@ -488,6 +488,7 @@ function addrangebullets (split){
         atan+=r
     }
 } 
+
 function addwavebullet (x, y, wave){
     step = 0.008;
     bulletslst['waveshoot'].push([x, y, step, wave])
@@ -538,12 +539,12 @@ for (let k of shootsh){ //[back here]
             } else if (k.innerHTML == 'Wave bullet'){
                 if (!shootingbool['waveshoot']){
                     shootingbool['waveshoot'] = true;
-                    k.style.backgroundColor = 'rgb(102, 102, 255)';
+                    k.style.backgroundColor = 'rgb(102, 102, 255)';}
                 } else{
                     shootingbool['waveshoot'] = false;
                     k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
                 }
-}})
+})
 }
 
 //click to shoot part
@@ -551,15 +552,10 @@ document.body.addEventListener('click', function(){
     if (shootingbool['entertrue'] && (mouseX > 0 && mouseX < columns * unitLength && mouseY > 0 && mouseY < rows * unitLength)){
         if (shootingbool['mouseshoot']) { 
             a = shootatan();
-            bulletslst['mouseshoot'].push([a, kwidth+10, kheight+10])
-     } else if(bulletslst['rangeshoot']){
-         if (shootingbool['rangeshoot']) { 
-             addrangebullets(splitvalue);
-     }}else if(bulletslst['waveshoot']){
-         if (shootingbool['waveshoot']){
-             addwavebullet(kwidth + 10, kheight + 10, 100);
-             console.log('added wave')
-        }}
+            bulletslst['mouseshoot'].push([a, kwidth, kheight])
+        } else if(bulletslst['rangeshoot']){
+            addrangebullets(splitvalue);
+        }
     }
 })
 
@@ -590,15 +586,6 @@ function showbullet(){
             let index = bulletslst['rangeshoot'].indexOf(b);
             bulletslst['rangeshoot'].splice(index, 1)
         }
-    }
-    // bulletslst['waveshoot'].push([x, y, step, wave] [back here]
-    for (let b of bulletslst['waveshoot']){
-        let sinyPos = -1 * sin(b[2]) * b[3]
-        b[0] += b[2]
-        b[2] += b[2]
-        fill(210, 53, 53)
-        rect(Math.round(b[0]), sinyPos + b[1], unitLength, unitLength)
-        console.log(Math.round(b[0]), sinyPos + b[1])
     }
 }
 

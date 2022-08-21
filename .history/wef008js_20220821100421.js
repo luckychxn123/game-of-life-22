@@ -488,6 +488,7 @@ function addrangebullets (split){
         atan+=r
     }
 } 
+
 function addwavebullet (x, y, wave){
     step = 0.008;
     bulletslst['waveshoot'].push([x, y, step, wave])
@@ -543,7 +544,7 @@ for (let k of shootsh){ //[back here]
                     shootingbool['waveshoot'] = false;
                     k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
                 }
-}})
+})
 }
 
 //click to shoot part
@@ -552,14 +553,11 @@ document.body.addEventListener('click', function(){
         if (shootingbool['mouseshoot']) { 
             a = shootatan();
             bulletslst['mouseshoot'].push([a, kwidth+10, kheight+10])
-     } else if(bulletslst['rangeshoot']){
-         if (shootingbool['rangeshoot']) { 
-             addrangebullets(splitvalue);
-     }}else if(bulletslst['waveshoot']){
-         if (shootingbool['waveshoot']){
-             addwavebullet(kwidth + 10, kheight + 10, 100);
-             console.log('added wave')
-        }}
+        } else if(bulletslst['rangeshoot']){
+            addrangebullets(splitvalue);
+        } else if(bulletslst['waveshoot']){
+            addwavebullet(kwidth + 10, kheight + 10, 100)
+        }
     }
 })
 
@@ -597,8 +595,7 @@ function showbullet(){
         b[0] += b[2]
         b[2] += b[2]
         fill(210, 53, 53)
-        rect(Math.round(b[0]), sinyPos + b[1], unitLength, unitLength)
-        console.log(Math.round(b[0]), sinyPos + b[1])
+        rect(b[0], sinyPos + b[1], unitLength, unitLength)
     }
 }
 

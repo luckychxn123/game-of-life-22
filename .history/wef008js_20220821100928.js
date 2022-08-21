@@ -488,6 +488,7 @@ function addrangebullets (split){
         atan+=r
     }
 } 
+
 function addwavebullet (x, y, wave){
     step = 0.008;
     bulletslst['waveshoot'].push([x, y, step, wave])
@@ -558,7 +559,6 @@ document.body.addEventListener('click', function(){
      }}else if(bulletslst['waveshoot']){
          if (shootingbool['waveshoot']){
              addwavebullet(kwidth + 10, kheight + 10, 100);
-             console.log('added wave')
         }}
     }
 })

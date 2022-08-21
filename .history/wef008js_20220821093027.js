@@ -189,8 +189,6 @@ function init() {
         }
         console.log('restart')
     bulletslst['mouseshoot'] = [];
-    bulletslst['waveshoot'] = [];
-    bulletslst['rangeshoot'] = [];
         // me: if set currentBoard[i][j] = 1, whole column will become grey and this pass to almost all lines. can test this later after speed set
     }
     // console.log(currentBoard, 'currentboard', '\n', nextBoard, 'nextboard') -> both are same, a big list with x length: [...], [...] !! not big list wraping them up
@@ -403,7 +401,7 @@ function mouseDragged() {
     }
     const x = Math.floor(mouseX / unitLength);
     const y = Math.floor(mouseY / unitLength);
-    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot']){
+    if (!shootingbool['mouseshoot']){
         if (!erasing){
         currentBoard[x][y] = changecolorspeed;}
         else if (erasing){
@@ -420,7 +418,7 @@ function mouseDragged() {
  */
 function mousePressed() {
     noLoop(); //library func: stop draw()
-    if (!shootingbool['mouseshoot'] || !shootingbool['rangeshoot'] || !shootingbool['waveshoot']){
+    if (!shootingbool['mouseshoot']){
     mouseDragged();}
 }
 
@@ -474,8 +472,8 @@ let kheight = 320;
 let kwidth = 720;
 let klst = [[kheight, kwidth], [kheight, kwidth + 20], [kheight + 20, kwidth], [kheight + 20, kwidth + 20]]
 let shootsh = document.querySelectorAll('.keydownshoots div')
-let shootingbool = {'mouseshoot':false, 'entertrue':false, 'rangeshoot':false, 'waveshoot':false};
-let bulletslst = {'mouseshoot':[], 'rangeshoot':[], 'waveshoot':[]} // {bulletslst['mouseshoot'].push...=[]}
+let shootingbool = {'mouseshoot':false, 'entertrue':false, 'rangeshoot':false};
+let bulletslst = {'mouseshoot':[], 'rangeshoot':[]} // {bulletslst['mouseshoot'].push...=[]}
 let shootspeed = 10;
 
 
@@ -488,10 +486,7 @@ function addrangebullets (split){
         atan+=r
     }
 } 
-function addwavebullet (x, y, wave){
-    step = 0.008;
-    bulletslst['waveshoot'].push([x, y, step, wave])
-}
+
 
 addEventListener('keydown', function(event){
     if (event.keyCode == 87) {
@@ -519,9 +514,10 @@ function shootatan(){
 
 for (let k of shootsh){ //[back here]
     k.addEventListener('click', function onClick(){
-        if (k.innerHTML == 'Bullet'){
+        if (k.innerHTML == 'Shoot'){
                 if (!shootingbool['mouseshoot']){
                     shootingbool['mouseshoot'] = true;
+                    shootingbool['rangeshoot'] = false;
                     k.style.backgroundColor = 'rgb(102, 102, 255)';
                 } else {
                     shootingbool['mouseshoot'] = false;
@@ -529,37 +525,25 @@ for (let k of shootsh){ //[back here]
                 }
             } else if (k.innerHTML == 'Range bullets'){
                 if (!shootingbool['rangeshoot']){
+                    shootingbool['mouseshoot'] = false;
                     shootingbool['rangeshoot'] = true;
                     k.style.backgroundColor = 'rgb(102, 102, 255)';
                 } else{
                     shootingbool['rangeshoot'] = false;
                     k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
                 }
-            } else if (k.innerHTML == 'Wave bullet'){
-                if (!shootingbool['waveshoot']){
-                    shootingbool['waveshoot'] = true;
-                    k.style.backgroundColor = 'rgb(102, 102, 255)';
-                } else{
-                    shootingbool['waveshoot'] = false;
-                    k.style.backgroundColor = 'rgba(240, 248, 255, 0.57)';
-                }
-}})
+            
+    }
+})
 }
-
-//click to shoot part
 document.body.addEventListener('click', function(){
     if (shootingbool['entertrue'] && (mouseX > 0 && mouseX < columns * unitLength && mouseY > 0 && mouseY < rows * unitLength)){
         if (shootingbool['mouseshoot']) { 
             a = shootatan();
-            bulletslst['mouseshoot'].push([a, kwidth+10, kheight+10])
-     } else if(bulletslst['rangeshoot']){
-         if (shootingbool['rangeshoot']) { 
-             addrangebullets(splitvalue);
-     }}else if(bulletslst['waveshoot']){
-         if (shootingbool['waveshoot']){
-             addwavebullet(kwidth + 10, kheight + 10, 100);
-             console.log('added wave')
-        }}
+            bulletslst['mouseshoot'].push([a, kwidth, kheight])
+        } else if(bulletslst['rangeshoot']){
+            addrangebullets(splitvalue);
+        }
     }
 })
 
@@ -590,15 +574,6 @@ function showbullet(){
             let index = bulletslst['rangeshoot'].indexOf(b);
             bulletslst['rangeshoot'].splice(index, 1)
         }
-    }
-    // bulletslst['waveshoot'].push([x, y, step, wave] [back here]
-    for (let b of bulletslst['waveshoot']){
-        let sinyPos = -1 * sin(b[2]) * b[3]
-        b[0] += b[2]
-        b[2] += b[2]
-        fill(210, 53, 53)
-        rect(Math.round(b[0]), sinyPos + b[1], unitLength, unitLength)
-        console.log(Math.round(b[0]), sinyPos + b[1])
     }
 }
 
