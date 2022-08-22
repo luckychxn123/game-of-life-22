@@ -147,10 +147,10 @@
 .keydownshoots div, .colorful{
     padding-top: 2px;
 }
-/* div:hover{
+div:hover{
     transition: linear 0.2s;
     transform: scale(1.1);
-} */
+}
 /* <div class="patternlist">Select patterns
 <div>Hammerhead</div>
 <div>Orthogonal ship</div>
